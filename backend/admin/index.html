@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administration E-commerce</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h4><i class="fas fa-store"></i> Admin Panel</h4>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#dashboard" class="nav-link active" data-section="dashboard">
+                <i class="fas fa-tachometer-alt"></i> Tableau de bord
+            </a>
+            <a href="#products" class="nav-link" data-section="products">
+                <i class="fas fa-box"></i> Produits
+            </a>
+            <a href="#categories" class="nav-link" data-section="categories">
+                <i class="fas fa-tags"></i> Catégories
+            </a>
+            <a href="#brands" class="nav-link" data-section="brands">
+                <i class="fas fa-trademark"></i> Marques
+            </a>
+            <a href="#orders" class="nav-link" data-section="orders">
+                <i class="fas fa-shopping-cart"></i> Commandes
+            </a>
+            <a href="#settings" class="nav-link" data-section="settings">
+                <i class="fas fa-cog"></i> Paramètres
+            </a>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <header class="header">
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="header-title">
+                <h2 id="pageTitle">Tableau de bord</h2>
+            </div>
+            <div class="header-actions">
+                <div class="dropdown">
+                    <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-user"></i> Admin
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-user-cog"></i> Profil</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+
+        <!-- Content Area -->
+        <div class="content">
+            <!-- Dashboard Section -->
+            <div id="dashboard-section" class="content-section active">
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-primary">
+                                <i class="fas fa-box"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="totalProducts">0</h3>
+                                <p>Produits</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-success">
+                                <i class="fas fa-tags"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="totalCategories">0</h3>
+                                <p>Catégories</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-warning">
+                                <i class="fas fa-shopping-cart"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="totalOrders">0</h3>
+                                <p>Commandes</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-info">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="totalRevenue">0</h3>
+                                <p>Revenus (MAD)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-chart-line"></i> Ventes récentes</h5>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="salesChart" width="400" height="200"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5><i class="fas fa-clock"></i> Activité récente</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="recentActivity">
+                                    <!-- Activité récente sera chargée ici -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Section -->
+            <div id="products-section" class="content-section">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3>Gestion des Produits</h3>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productModal">
+                        <i class="fas fa-plus"></i> Ajouter un produit
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <h5 class="mb-0">Liste des produits</h5>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="productSearch" placeholder="Rechercher un produit...">
+                                    <button class="btn btn-outline-secondary" type="button">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Image</th>
+                                        <th>Nom</th>
+                                        <th>Catégorie</th>
+                                        <th>Prix</th>
+                                        <th>Stock</th>
+                                        <th>Statut</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="productsTable">
+                                    <!-- Produits seront chargés ici -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Categories Section -->
+            <div id="categories-section" class="content-section">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3>Gestion des Catégories</h3>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#categoryModal">
+                        <i class="fas fa-plus"></i> Ajouter une catégorie
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Liste des catégories</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nom</th>
+                                        <th>Description</th>
+                                        <th>Nombre de produits</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="categoriesTable">
+                                    <!-- Catégories seront chargées ici -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Brands Section -->
+            <div id="brands-section" class="content-section">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3>Gestion des Marques</h3>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#brandModal">
+                        <i class="fas fa-plus"></i> Ajouter une marque
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Liste des marques</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Logo</th>
+                                        <th>Nom</th>
+                                        <th>Description</th>
+                                        <th>Site web</th>
+                                        <th>Produits</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="brandsTable">
+                                    <!-- Marques seront chargées ici -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orders Section -->
+            <div id="orders-section" class="content-section">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3>Gestion des Commandes</h3>
+                    <div class="d-flex gap-2">
+                        <select class="form-select" id="orderStatusFilter" style="width: auto;">
+                            <option value="">Tous les statuts</option>
+                            <option value="en_attente">En attente</option>
+                            <option value="validee">Validée</option>
+                            <option value="livree">Livrée</option>
+                            <option value="annulee">Annulée</option>
+                        </select>
+                        <button class="btn btn-outline-primary" onclick="adminPanel.loadOrders()">
+                            <i class="fas fa-refresh"></i> Actualiser
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-warning">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="pendingOrders">0</h3>
+                                <p>En attente</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-info">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="confirmedOrders">0</h3>
+                                <p>Confirmées</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-primary">
+                                <i class="fas fa-shipping-fast"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="shippedOrders">0</h3>
+                                <p>Expédiées</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-success">
+                                <i class="fas fa-check-double"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="deliveredOrders">0</h3>
+                                <p>Livrées</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <h5 class="mb-0">Liste des commandes</h5>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="orderSearch" placeholder="Rechercher une commande...">
+                                    <button class="btn btn-outline-secondary" type="button">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>N° Commande</th>
+                                        <th>Client</th>
+                                        <th>Date</th>
+                                        <th>Total</th>
+                                        <th>Statut</th>
+                                        <th>Articles</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ordersTable">
+                                    <!-- Commandes seront chargées ici -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Section -->
+            <div id="settings-section" class="content-section">
+                <h3>Paramètres</h3>
+                <div class="card">
+                    <div class="card-body">
+                        <p>Section des paramètres en cours de développement...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Modal -->
+    <div class="modal fade" id="productModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="productModalTitle">Ajouter un produit</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="productForm" enctype="multipart/form-data">
+                        <input type="hidden" id="productId" name="id">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="productName" class="form-label">Nom du produit *</label>
+                                    <input type="text" class="form-control" id="productName" name="nom" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="productCategory" class="form-label">Catégorie *</label>
+                                    <select class="form-select" id="productCategory" name="category_id" required>
+                                        <option value="">Sélectionner une catégorie</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="productBrand" class="form-label">Marque</label>
+                                    <select class="form-select" id="productBrand" name="brand_id">
+                                        <option value="">Sélectionner une marque (optionnel)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="productPrice" class="form-label">Prix (MAD) *</label>
+                                    <input type="number" class="form-control" id="productPrice" name="prix" step="0.01" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="productStock" class="form-label">Stock *</label>
+                                    <input type="number" class="form-control" id="productStock" name="stock" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="productDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="productDescription" name="description" rows="3"></textarea>
+                        </div>
+                        
+                        <!-- Nouvelles options pour les sections spéciales -->
+                        <div class="mb-3">
+                            <label class="form-label">Sections spéciales</label>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="isBestseller" name="is_bestseller">
+                                        <label class="form-check-label" for="isBestseller">
+                                            <i class="fas fa-star text-warning"></i> Bestseller
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="isNew" name="is_new">
+                                        <label class="form-check-label" for="isNew">
+                                            <i class="fas fa-sparkles text-success"></i> Nouveauté
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="isFeatured" name="is_featured">
+                                        <label class="form-check-label" for="isFeatured">
+                                            <i class="fas fa-crown text-primary"></i> En vedette
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <small class="form-text text-muted">
+                                Sélectionnez dans quelles sections ce produit doit apparaître sur l'application mobile
+                            </small>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="productImage" class="form-label">Image du produit</label>
+                            <input type="file" class="form-control" id="productImage" name="image" accept="image/*">
+                            <div class="form-text">Formats acceptés: JPG, PNG, GIF (max 5MB)</div>
+                        </div>
+                        <div id="imagePreview" class="mb-3" style="display: none;">
+                            <img id="previewImg" src="" alt="Aperçu" class="img-thumbnail" style="max-width: 200px;">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-primary" id="saveProduct">Enregistrer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Category Modal -->
+    <div class="modal fade" id="categoryModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="categoryModalTitle">Ajouter une catégorie</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="categoryForm">
+                        <input type="hidden" id="categoryId" name="id">
+                        <div class="mb-3">
+                            <label for="categoryName" class="form-label">Nom de la catégorie *</label>
+                            <input type="text" class="form-control" id="categoryName" name="nom" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="categoryDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="categoryDescription" name="description" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-primary" id="saveCategory">Enregistrer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Brand Modal -->
+    <div class="modal fade" id="brandModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="brandModalTitle">Ajouter une marque</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="brandForm" enctype="multipart/form-data">
+                        <input type="hidden" id="brandId" name="id">
+                        <div class="mb-3">
+                            <label for="brandName" class="form-label">Nom de la marque *</label>
+                            <input type="text" class="form-control" id="brandName" name="nom" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="brandDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="brandDescription" name="description" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="brandWebsite" class="form-label">Site web</label>
+                            <input type="url" class="form-control" id="brandWebsite" name="website" placeholder="https://example.com">
+                        </div>
+                        <div class="mb-3">
+                            <label for="brandLogo" class="form-label">Logo de la marque</label>
+                            <input type="file" class="form-control" id="brandLogo" name="logo" accept="image/*">
+                            <div class="form-text">Formats acceptés: JPG, PNG, GIF. Taille max: 2MB</div>
+                        </div>
+                        <div id="logoPreview" style="display: none;" class="mb-3">
+                            <label class="form-label">Aperçu du logo:</label>
+                            <div class="text-center">
+                                <img id="previewLogo" src="" alt="Aperçu" style="max-width: 150px; max-height: 150px; border: 1px solid #ddd; border-radius: 8px;">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-primary" id="saveBrand">Enregistrer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="loading-spinner" style="display: none;">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Chargement...</span>
+        </div>
+    </div>
+
+    <!-- Order Detail Modal -->
+    <div class="modal fade" id="orderDetailModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Détails de la commande #<span id="orderNumber"></span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Informations client</h6>
+                            <div class="mb-3">
+                                <strong>Nom:</strong> <span id="customerName"></span><br>
+                                <strong>Email:</strong> <span id="customerEmail"></span><br>
+                                <strong>Téléphone:</strong> <span id="customerPhone"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Informations commande</h6>
+                            <div class="mb-3">
+                                <strong>Date:</strong> <span id="orderDate"></span><br>
+                                <strong>Statut:</strong> <span id="orderStatus"></span><br>
+                                <strong>Total:</strong> <span id="orderTotal"></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h6>Adresse de livraison</h6>
+                    <div class="mb-3">
+                        <p id="deliveryAddress"></p>
+                    </div>
+
+                    <h6>Articles commandés</h6>
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Produit</th>
+                                    <th>Prix unitaire</th>
+                                    <th>Quantité</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="orderItems">
+                                <!-- Articles seront chargés ici -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="mt-3">
+                        <h6>Changer le statut</h6>
+                        <div class="d-flex gap-2">
+                            <select class="form-select" id="newOrderStatus">
+                                <option value="en_attente">En attente</option>
+                                <option value="validee">Validée</option>
+                                <option value="livree">Livrée</option>
+                                <option value="annulee">Annulée</option>
+                            </select>
+                            <button class="btn btn-primary" onclick="adminPanel.updateOrderStatus()">
+                                Mettre à jour
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-danger" onclick="adminPanel.deleteOrder()">
+                        <i class="fas fa-trash"></i> Supprimer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="toast" class="toast" role="alert">
+            <div class="toast-header">
+                <strong class="me-auto" id="toastTitle">Notification</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body" id="toastMessage">
+                Message
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

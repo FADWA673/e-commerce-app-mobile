@@ -1,0 +1,50 @@
+# Dependencies
+node_modules/
+mobile/node_modules/
+backend/node_modules/
+
+# Expo
+mobile/.expo/
+mobile/dist/
+mobile/web-build/
+
+# Android
+mobile/android/.gradle/
+mobile/android/build/
+mobile/android/app/build/
+*.keystore
+!debug.keystore
+
+# iOS
+mobile/ios/Pods/
+mobile/ios/build/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+backend/.env
+
+# Uploads (user-generated content)
+backend/uploads/products/*
+backend/uploads/brands/*
+!backend/uploads/products/.gitkeep
+!backend/uploads/brands/.gitkeep
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Build
+dist/
+build/
